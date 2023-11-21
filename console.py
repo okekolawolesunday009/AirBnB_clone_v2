@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
                 try:
                     if hasattr(new_instance, key):
                         if type(value) == str:
-                            value = value.replace("_", " ")
+                            value = value.strip('"').replace("_", " ")
                             value = eval(value)
                             setattr(new_instance, key, value)
                 except(IndexError, ValueError):

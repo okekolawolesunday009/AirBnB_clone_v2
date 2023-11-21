@@ -1,1 +1,4 @@
+<<<<<<< HEAD
 {"State.79bd0604-4d9c-4b43-ba99-6aa1c4208177": {"id": "79bd0604-4d9c-4b43-ba99-6aa1c4208177", "created_at": "2023-11-20T21:13:20.098392", "updated_at": "2023-11-20T21:13:20.098674", "name": "California", "__class__": "State"}, "State.ba4d7eda-b5c6-4b23-92d2-51383d6e4486": {"id": "ba4d7eda-b5c6-4b23-92d2-51383d6e4486", "created_at": "2023-11-20T21:13:35.990669", "updated_at": "2023-11-20T21:13:35.990979", "name": "California", "__class__": "State"}}
+=======
+>>>>>>> ff7a79ce1dac56914f2864986615a69887617bd0
