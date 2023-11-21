@@ -16,7 +16,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
-class DBStorage:
+class DBStorage():
     """This class manages storage of hbnb models in JSON format"""
     __engine =None
     __session =None
@@ -28,17 +28,7 @@ class DBStorage:
                 getenv('HBNB_MYSQL_PWD'),
                 getenv('HBNB_MYSQL_HOST'),
                 getenv('HBNB_MYSQL_DB')),
-            pool_pre_ping=True)
-
-        try:
-            self.__engine.connect()
-            print("Connected to the database successfully.")
-        except Exception as e:
-            print(f"Error connecting to the database: {e}")
-            raise
-        Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine)
-        self.__session = Session()
+            pool_pre_ping=True)    
 
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self._engine)
@@ -70,10 +60,14 @@ class DBStorage:
             self.__session.delete(obj)
 
     def reload(self, obj=None):
-        Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(Session)
-        self.__session = Session()
+        try:
+            Base.metadata.create_all(self.__engine)
+            Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+            Session = scoped_session(Session)
+            self.__session = Session
+        except Exception as e:
+            print(f"Error reloading database: {e}")
+            raise
     
     def close(self):
         self.__session.remove()   
