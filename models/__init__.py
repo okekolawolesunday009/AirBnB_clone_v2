@@ -9,8 +9,7 @@ from os import getenv
 # storage.reload()
 if getenv('HBNB_MYSQL_DB') == "db":
     storage = DBStorage()
-    storage.reload()
+    print("db initiated")
 else:
     storage = FileStorage()
-    storage.reload()
-
+storage.reload()
