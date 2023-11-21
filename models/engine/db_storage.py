@@ -32,6 +32,7 @@ class DBStorage():
 
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self._engine)
+        print("init")
 
     def all(self, cls=None):
         '''Run a query on the Current database session'''
@@ -59,7 +60,7 @@ class DBStorage():
         if obj is not None:
             self.__session.delete(obj)
 
-    def reload(self, obj=None):
+    def reload(self):
         try:
             Base.metadata.create_all(self.__engine)
             Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
