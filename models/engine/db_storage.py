@@ -29,12 +29,19 @@ class DBStorage:
                 getenv('HBNB_MYSQL_HOST'),
                 getenv('HBNB_MYSQL_DB')),
             pool_pre_ping=True)
+
+        try:
+            self.__engine.connect()
+            print("Connected to the database successfully.")
+        except Exception as e:
+            print(f"Error connecting to the database: {e}")
+            raise
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine)
         self.__session = Session()
 
         if getenv('HBNB_ENV') == 'test':
-            Base.metadat.drop_all(self._engine)
+            Base.metadata.drop_all(self._engine)
 
     def all(self, cls=None):
         '''Run a query on the Current database session'''
@@ -66,7 +73,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(Session)
-        self.__session = Session
+        self.__session = Session()
     
     def close(self):
         self.__session.remove()   
