@@ -50,10 +50,15 @@ class DBStorage:
         return all_dict
     
     def new(self, obj):
-        if obj not in self.__session:
-            self.__session.add(obj)
-        else:
-            self.__session.close()
+        try:
+            if obj not in self.__session:
+                self.__session.add(obj)
+            else:
+                self.__session.close()
+        except Exception as e:
+            print(f"Error session on database: {e}")
+            raise
+
 
 
     def save(self):
