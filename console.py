@@ -118,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
         print("create <Class name> <param 1> <param 2> <param 3>...")
         line = args.split(" ")
         class_name = line[0]
-        if len(line) < 1:
+        if not args:
             print(f"** missing parameters for {class_name} **")
             return
         try:
@@ -144,9 +144,8 @@ class HBNBCommand(cmd.Cmd):
         # Save the instance and print its ID
         storage.new(new_instance)
         new_instance.save()
-        print(new_instance.id)
 
-    def help_create(self):
+    def  help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
         print("[Usage]: create <className>\n")
