@@ -8,7 +8,7 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self, cls=None): #updated 
+    def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls:
             my_dict = {}
@@ -59,6 +59,7 @@ class FileStorage:
             pass
         
     def delete(self, obj=None):
+        """save new obj file"""
         if (obj == None):
             return
         else:

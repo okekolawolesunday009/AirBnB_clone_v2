@@ -50,6 +50,7 @@ class DBStorage:
         return all_dict
     
     def new(self, obj):
+        """add new obj"""
         try:
             if obj not in self.__session:
                 self.__session.add(obj)
@@ -59,16 +60,17 @@ class DBStorage:
             print(f"Error session on database: {e}")
             raise
 
-
-
     def save(self):
+        """save new obj"""
         self.__session.commit()
 
     def delete(self, obj=None):
+        """delete new obj"""
         if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):
+        """reload new obj"""
         try:
             Base.metadata.create_all(self.__engine)
             Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
@@ -79,5 +81,6 @@ class DBStorage:
             raise
     
     def close(self):
+        """close new obj"""
         self.__session.close()   
 
