@@ -9,7 +9,6 @@ from os import getenv
 # storage.reload()
 if getenv('HBNB_TYPE_STORAGE') == "db":
     storage = DBStorage()
-    print("db initiated")
 else:
     storage = FileStorage()
 storage.reload()
