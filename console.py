@@ -73,8 +73,8 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
-                            and type(eval(pline)) is dict:
+                    if pline[0] == '{' and pline[-1] =='}'\
+                            and type(eval(pline)) == dict:
                         _args = pline
                     else:
                         _args = pline.replace(',', '')
@@ -112,7 +112,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """ Overrides the emptyline method of CMD """
         pass
-
+    
     def do_create(self, args):
         """ Create an object of any class"""
         print("create <Class name> <param 1> <param 2> <param 3>...")
@@ -122,25 +122,28 @@ class HBNBCommand(cmd.Cmd):
             print(f"** missing parameters for {class_name} **")
             return
         try:
-
-        #Extract parameters from the command
-            new_instance = eval(class_name)()
+            kwargs = {}
             for i in (line[1:]):
-                key_value = i.split('=')
+                key_value = i.split("=")
                 key, value = key_value[0], key_value[1]
                 try:
-                    if hasattr(new_instance, key):
-                        if type(value) is str:
-                            value = value.replace("_", " ")
-                            value = eval(value)
-                            setattr(new_instance, key, value)
-                except(IndexError, ValueError):
-                        pass
+                    if type(value) == str:
+                        value = value.strip('"').replace("_", " ")
+                        value = eval(value)
+                except (IndexError, ValueError):
+                    pass
+                kwargs[key] = value
+
+            if kwargs == {}:
+                new_instance = eval(class_name)()
+            else:
+                new_instance = eval(class_name)(**kwargs)
         except (NameError):
             print("** class doesn't exist **")
+            return
         # Save the instance and print its ID
+        storage.new(new_instance)
         new_instance.save()
-        storage.save()
         print(new_instance.id)
 
     def help_create(self):
@@ -281,7 +284,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # first determine if kwargs or args
-        if '{' in args[2] and '}' in args[2] and type(eval(args[2])) is dict:
+        if '{' in args[2] and '}' in args[2] and type(eval(args[2])) == dict:
             kwargs = eval(args[2])
             args = []  # reformat kwargs into list, ex: [<name>, <value>, ...]
             for k, v in kwargs.items():
@@ -289,7 +292,7 @@ class HBNBCommand(cmd.Cmd):
                 args.append(v)
         else:  # isolate args
             args = args[2]
-            if args and args[0] is '\"':  # check for quoted arg
+            if args and args[0] == '\"':  # check for quoted arg
                 second_quote = args.find('\"', 1)
                 att_name = args[1:second_quote]
                 args = args[second_quote + 1:]
@@ -297,10 +300,10 @@ class HBNBCommand(cmd.Cmd):
             args = args.partition(' ')
 
             # if att_name was not quoted arg
-            if not att_name and args[0] is not ' ':
+            if not att_name and args[0] != ' ':
                 att_name = args[0]
             # check for quoted val arg
-            if args[2] and args[2][0] is '\"':
+            if args[2] and args[2][0] == '\"':
                 att_val = args[2][1:args[2].find('\"', 1)]
 
             # if att_val was not quoted arg

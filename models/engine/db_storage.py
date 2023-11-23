@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
-#!/usr/bin/python3
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -16,25 +15,23 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
-class DBStorage:
+class DBStorage():
     """This class manages storage of hbnb models in JSON format"""
     __engine =None
     __session =None
 
     def __init__(self):
         self.__engine = create_engine(
-            'mysql+mysqldb://{}:{}@{}/{}'.format(
+            'mysql+mysqldb://{}:{}@{}:3306/{}'.format(
                 getenv('HBNB_MYSQL_USER'),
                 getenv('HBNB_MYSQL_PWD'),
                 getenv('HBNB_MYSQL_HOST'),
                 getenv('HBNB_MYSQL_DB')),
-            pool_pre_ping=True)
-        Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine)
-        self.__session = Session()
+            pool_pre_ping=True)    
 
         if getenv('HBNB_ENV') == 'test':
-            Base.metadat.drop_all(self._engine)
+            Base.metadata.drop_all(self._engine)
+        print("init")
 
     def all(self, cls=None):
         '''Run a query on the Current database session'''
@@ -62,11 +59,15 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
-    def reload(self, obj=None):
-        Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(Session)
-        self.__session = Session
+    def reload(self):
+        try:
+            Base.metadata.create_all(self.__engine)
+            Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+            Session = scoped_session(Session)
+            self.__session = Session()
+        except Exception as e:
+            print(f"Error reloading database: {e}")
+            raise
     
     def close(self):
         self.__session.remove()   
