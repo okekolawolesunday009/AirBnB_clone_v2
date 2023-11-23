@@ -15,7 +15,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
-class DBStorage():
+class DBStorage:
     """This class manages storage of hbnb models in JSON format"""
     __engine =None
     __session =None
@@ -50,7 +50,11 @@ class DBStorage():
         return all_dict
     
     def new(self, obj):
-        self.__session.add(obj)
+        if obj not in self.__session:
+            self.__session.add(obj)
+        else:
+            self.__session.close()
+
 
     def save(self):
         self.__session.commit()
@@ -63,12 +67,12 @@ class DBStorage():
         try:
             Base.metadata.create_all(self.__engine)
             Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-            Session = scoped_session(Session)
-            self.__session = Session()
+            with Session() as session:
+                self.__session = session
         except Exception as e:
             print(f"Error reloading database: {e}")
             raise
     
     def close(self):
-        self.__session.remove()   
+        self.__session.close()   
 

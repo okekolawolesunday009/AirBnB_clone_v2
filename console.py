@@ -115,11 +115,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        print("create <Class name> <param 1> <param 2> <param 3>...")
         line = args.split(" ")
         class_name = line[0]
-        if len(line) < 1:
-            print(f"** missing parameters for {class_name} **")
+        if len(line) == 0 or class_name not in HBNBCommand.classes:
+            print(f"** missing parameters for {class_name} or invalid {class_name}**")
             return
         try:
 
@@ -138,7 +137,8 @@ class HBNBCommand(cmd.Cmd):
                         pass
         except (NameError):
             print("** class doesn't exist **")
-        # Save the instance and print its ID
+        # Save the instanice and print its ID
+        storage.new(new_instance)
         new_instance.save()
         storage.save()
         print(new_instance.id)
