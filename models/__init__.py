@@ -7,7 +7,7 @@ from os import getenv
 
 # storage = FileStorage()
 # storage.reload()
-if getenv('HBNB_MYSQL_DB') == "db":
+if getenv('HBNB_TYPE_STORAGE') == "db":
     storage = DBStorage()
     print("db initiated")
 else:

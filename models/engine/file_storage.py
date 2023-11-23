@@ -49,9 +49,12 @@ class FileStorage:
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
+                try:
+                    temp = json.load(f)
+                    for key, val in temp.items():
                         self.all()[key] = classes[val['__class__']](**val)
+                except json.JSONDecodeError as e:
+                    print(f"Error decoding JSON: {e}")
         except FileNotFoundError:
             pass
         
