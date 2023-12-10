@@ -2,10 +2,11 @@
 """ using fabric 101
 """
 from datetime import datetime
+from fabric import task
 from fabric.api import local
 from os.path import isdir
 
-
+@task
 def do_pack():
     """generates a tgz achive"""
     try:
