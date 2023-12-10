@@ -3,18 +3,19 @@
 """
 from datetime import datetime
 from fabric import task
-from fabric.api import local
+from invoke import run
 from os.path import isdir
 
+
 @task
-def do_pack():
+def do_pack(ctx):
     """generates a tgz achive"""
     try:
         date = datetime.now().strftime("%Y%m%d%H%M%S")
         if isdir("version") is False:
-            local("mkdir versions")
+            run("mkdir versions")
         file_name = "versions/web_static_{}.tgz".format(date)
-        local("tar -cvzf {} web_static".format(file_name))
+        run("tar -cvzf {} web_static".format(file_name))
         return file_name
-    except:
+    except Exception as e:
         return None
