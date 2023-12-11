@@ -11,12 +11,12 @@ sudo mkdir -p /data/web_static/releases/test/
 echo "<html>
 	<head>
 	</head>
-		<body>
-			Holberton School
-		</body>
+	<body>
+	 Holberton School
+	 </body>
 	</html>
 " | sudo tee /data/web_static/releases/test/index.html
-sudo ln -s /data/web_static/current /data/web_static/releases/test/
+sudo ln -s /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 nginx_config="/etc/nginx/sites-available/default"
 nginx_link_config="/etc/nginx/sites-enabled/default"
