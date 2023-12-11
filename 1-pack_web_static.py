@@ -12,8 +12,8 @@ def do_pack():
         archive_path = "versions/webstatic{}.tgz".format(formatted_time)
         local("mkdir -p versions")
         local("tar -cvzf {} web_static".format(archive_path))
-        print("web_static packed: {} -> {}Bytes".format(archive_path, local("\
-                du -b {}".format(archive_path), capture=True)))
+        print("web_static packed: {} -> {}Bytes".format(archive_path, local(
+            "du -b {}".format(archive_path), capture=True)))
         return archive_path
     except Exception:
         return None
