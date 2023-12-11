@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-""" using fabric 101
-"""
+"""Fabric script that generates a tgz archive from the contents of the web_static
+folder of the AirBnB Clone repo"""
 from datetime import datetime
 from fabric import task
 from invoke import run
