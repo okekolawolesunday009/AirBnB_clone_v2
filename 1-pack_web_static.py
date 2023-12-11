@@ -7,7 +7,11 @@ from datetime import datetime
 
 @task
 def do_pack(ctx):
-    """Generates a .tgz archive from web_static"""
+    """Generates a .tgz archive from web_static
+        
+        Args:
+        ctx:...
+    """
     try:
         current_time = datetime.utcnow()
         formatted_time = current_time.strftime("%Y%m%d%H%M%S")
