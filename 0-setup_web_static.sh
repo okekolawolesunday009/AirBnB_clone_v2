@@ -19,7 +19,6 @@ echo "<html>
 sudo ln -s /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 nginx_config="/etc/nginx/sites-available/default"
-nginx_link_config="/etc/nginx/sites-enabled/default"
 sudo cp "$nginx_config" "$nginx_config.bak"
 sudo sed -i '38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
 sudo service nginx start
