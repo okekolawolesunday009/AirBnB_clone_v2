@@ -1,21 +1,20 @@
-#!/bin/usr/python3
-"""script that generates a tgz archive
-folder of the AirBnB Clone repo
+#!/usr/bin/python3
+""" using fabric 101
 """
 from datetime import datetime
-from fabric.api import local
+from fabric import task
+from invoke import run
 from os.path import isdir
 
-
 @task
-def do_pack():
-    """generates a tgz archive"""
+def do_pack(ctx):
+    """generates a tgz achive"""
     try:
         date = datetime.now().strftime("%Y%m%d%H%M%S")
         if isdir("versions") is False:
-            local("mkdir versions")
+            run("mkdir versions")
         file_name = "versions/web_static_{}.tgz".format(date)
-        local("tar -cvzf {} web_static".format(file_name))
+        run("tar -cvzf {} web_static".format(file_name))
         return file_name
     except Exception as e:
         return None
