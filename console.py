@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+import json
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -223,11 +224,21 @@ class HBNBCommand(cmd.Cmd):
                 if args not in HBNBCommand.classes:
                     print("** class doesn't exist **")
                     return
-                for k, v in objects:
+                for k, v in objects.items():
                     if k.split('.')[0] == args:
-                        print_list.append(str(v))
+                        print("also here")
+                        try:
+                            if hasattr(v, '_sa_instance_state'):
+                                delattr(v, '_sa_instance_state')
+                            print_list.append(str(v))
+                        except Exception as e:
+                            print(f"Error i {e}")
+
             else:
-                for k, v in objects():
+                for k, v in objects.items():
+                    print("reached here")
+                    if hasattr(v, '_sa_instance_state'):
+                        delattr(v, '_sa_instance_state')
                     print_list.append(str(v))
 
             print(print_list)

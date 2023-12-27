@@ -68,3 +68,7 @@ class FileStorage:
                     if val == obj:
                         del FileStorage.__objects[key]
             self.save()
+
+    def close():
+        self.reload()
+

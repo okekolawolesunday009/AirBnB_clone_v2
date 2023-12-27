@@ -19,6 +19,12 @@ class DBStorage:
     """This class manages storage of hbnb models in JSON format"""
     __engine =None
     __session =None
+    classes = {
+               'BaseModel': BaseModel, 'User': User, 'Place': Place,
+               'State': State, 'City': City, 'Amenity': Amenity,
+               'Review': Review
+              }
+
 
     def __init__(self):
         self.__engine = create_engine(
@@ -42,7 +48,7 @@ class DBStorage:
                 key = '{}.{}'.format(item.__class__.name, item.id)
                 all_dict[key] = item
         else:
-            for item, value in models.classes.items():
+            for item, value in self.classes.items():
                 if type(value) is not type(BaseModel):
                     for it in self.__session.query(value).all():
                         key = '{}.{}'.format(it.__class__.__name__, it.id)
