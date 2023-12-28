@@ -50,7 +50,7 @@ class DBStorage:
                     for it in self.__session.query(value).all():
                         key = '{}.{}'.format(it.__class__.__name__, it.id)
                         all_dict[key] = it
-                        return all_dict
+        return all_dict
 
     def new(self, obj):
         """add new obj"""
