@@ -12,7 +12,7 @@
 		{% endfor %}
 	    </UL>
 	{% elif sel_state %}
-		{% for state in states||sort(attribute='name') %}
+		{% for state in states|sort(attribute='name') %}
 	        <H1>State: {{ state.name }}</H1>
 
 		<H3>Cities</H3>
