@@ -13,13 +13,17 @@ app = Flask(__name__)
 def states(state_id=None):
     print(state_id)
     """display states based on id if any"""
-    states_dict = storage.all(State).items()
+    states = storage.all(State)
 
-    # Check if the state_id includes 'State.' prefix
-    if state_id == state.id:
-         state = states_dict.get(state_id)
-         state_id = state_id
-    print(state)
+
+    # Check if theii state_id includes 'State.' prefix
+    if state_id:
+        state_id = 'State.name.' + state_id
+        sel_state = states.get(state_id)
+        states = [sel_state.to_dict()] if sel_state else []
+        print(states)
+    else:
+        states = states.values()
     return render_template('9-states.html', states=states, state_id=state_id)
 
 
