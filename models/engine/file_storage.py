@@ -57,18 +57,18 @@ class FileStorage:
                     print(f"Error decoding JSON: {e}")
         except FileNotFoundError:
             pass
-        
+
     def delete(self, obj=None):
         """save new obj file"""
-        if (obj == None):
+        if (obj is None):
             return
         else:
             temp = {dict(FileStorage.__objects)}
             for key, val in temp.items():
-                    if val == obj:
-                        del FileStorage.__objects[key]
+                if val == obj:
+                    del FileStorage.__objects[key]
             self.save()
 
     def close():
+        """derealizes the JSON file to obj"""
         self.reload()
-

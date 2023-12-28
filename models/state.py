@@ -13,10 +13,13 @@ from os import getenv
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-    name =  Column(String(128), nullable=False)
-    cities = relationship('City', backref='states', cascade='all, delete-orphan')
-
-
+    name = Column(String(128), nullable=False)
+    cities = relationship(
+            'City',
+            backref='states',
+            cascade='all,
+            delete-orphan'
+            )
     if getenv("HBNB_TYPE_STORAGE") != "db":
         @property
         def cities(self):
@@ -25,4 +28,4 @@ class State(BaseModel, Base):
             for city in list(models.storage.all(City).values()):
                 if city.state_id == self.id:
                     myList.append(city)
-            return myList
+                return myList
