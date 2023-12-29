@@ -4,6 +4,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy import Table
+from os import getenv
+
 association_table = Table("place_amenity", Base.metadata,
                           Column("place_id", String(60),
                                  ForeignKey("places.id"),
@@ -27,5 +29,37 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     reviews = relationship('Review', cascade='all, delete-orphan', backref='place')
-    amenities = relationship("Amenity", secondary="place_amenity",
-                             viewonly=False)
+
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        amenities = relationship("Amenity", secondary="place_amenity",
+                viewonly=False, 
+                backref="place_amenities",
+                primaryjoin="Place.id == place_amenity.c.place_id",
+                ccondaryjoin="Amenity.id == place_amenity.c.amenity_id")
+    
+    else:
+        @property
+        def reviews(self):
+            """returns the list of Review instances"""
+            var = models.FileStorage.all()
+            lis = []
+            result = []
+            for key in var:
+                review = key.replace(".", " ")
+                review = review.split()
+                if review[0] == "review":
+                    lis.append(var[key])
+            for elem in lis:
+                if (elem.place_id == self.id):
+                    result.append(elem)
+            return result
+        @property
+        def amenities(self):
+            """that returns the list of Amenity"""
+            return self.amenity_ids
+        
+        @amenities.setter
+        def amenities(self, obj=None):
+            """Appends amenity ids to the attribute"""
+            if type(obj) == "Amenity" and obj.id not in self.amenity_ids:
+                self.amenity_ids.append(obj.id)
