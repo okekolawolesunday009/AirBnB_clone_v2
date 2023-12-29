@@ -5,21 +5,15 @@ from flask import Flask
 from flask import Flask, render_template
 from models import storage
 from models.state import State
+from models.amenity import Amenity
 app = Flask(__name__)
 
 
-@app.route("/states", strict_slashes=False)
-@app.route("/states/<state_id>", strict_slashes=False)
-def states(state_id=None):
+@app.route("/hbnb_filters", strict_slashes=False)
+def state_filters():
     """display states based on id if any"""
     states = storage.all(State)
-    if state_id:
-        state_id = 'State.name.' + state_id
-        sel_state = states.get(state_id)
-        states = [sel_state.to_dict()] if sel_state else []
-    else:
-        states = states.values()
-    return render_template('9-states.html', states=states, state_id=state_id, sel_state=sel_state)
+    return render_template('10-hbnb_filters.html', states=states)
 
 
 @app.teardown_appcontext

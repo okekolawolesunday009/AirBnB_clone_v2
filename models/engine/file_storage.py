@@ -63,7 +63,7 @@ class FileStorage:
         if (obj is None):
             return
         else:
-            temp = {dict(FileStorage.__objects)}
+            temp = dict(FileStorage.__objects)
             for key, val in temp.items():
                 if val == obj:
                     del FileStorage.__objects[key]
