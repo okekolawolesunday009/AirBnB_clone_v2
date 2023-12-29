@@ -226,7 +226,6 @@ class HBNBCommand(cmd.Cmd):
                     return
                 for k, v in objects.items():
                     if k.split('.')[0] == args:
-                        print("also here")
                         try:
                             if hasattr(v, '_sa_instance_state'):
                                 delattr(v, '_sa_instance_state')
