@@ -33,9 +33,9 @@ class Place(BaseModel, Base):
     if getenv("HBNB_TYPE_STORAGE") == "db":
         amenities = relationship("Amenity", secondary="place_amenity",
                 viewonly=False, 
-                backref="place_amenities",
+                back_populates="place_amenities",
                 primaryjoin="Place.id == place_amenity.c.place_id",
-                ccondaryjoin="Amenity.id == place_amenity.c.amenity_id")
+                secondaryjoin="Amenity.id == place_amenity.c.amenity_id")
     
     else:
         @property
