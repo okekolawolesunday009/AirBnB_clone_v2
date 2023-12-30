@@ -21,12 +21,14 @@ def states_id(id=None):
     states = storage.all(State).values()
     for state in states:
         if state.id == id:
-            state_id = id
             return render_template(
                     "9-states.html",
-                    states=state,
-                    state_id=state_id)
+                    state=state,
+                    )
         return render_template("9-states.html")
+
+
+
 
 
 @app.teardown_appcontext
