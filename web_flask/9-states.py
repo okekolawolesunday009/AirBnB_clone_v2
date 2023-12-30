@@ -15,11 +15,12 @@ def states():
     return render_template('9-states.html', states=states)
 
 
-@app.route("/states/<state_id>", strict_slashes=False)
+@app.route("/states/<id>", strict_slashes=False)
 def states_id(state_id=None):
     """display states based on id if any"""
     states = storage.all(State)
     sel_state = None
+    state_id = id
     if state_id:
         state_id = 'State.name.' + state_id
         sel_state = states.get(state_id)
