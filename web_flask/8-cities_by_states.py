@@ -12,7 +12,6 @@ app = Flask(__name__)
 def cities_by_states():
     """displays the number of state"""
     states = storage.all(State).values()
-
     return render_template('8-cities_by_states.html', states=states)
 
 

@@ -41,7 +41,7 @@ class Place(BaseModel, Base):
         @property
         def reviews(self):
             """returns the list of Review instances"""
-            var = models.FileStorage.all()
+            var = models.FileStorage.all(Review).values()
             lis = []
             result = []
             for key in var:
