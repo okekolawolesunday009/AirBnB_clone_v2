@@ -10,26 +10,23 @@ app = Flask(__name__)
 
 @app.route("/states", strict_slashes=False)
 def states():
-    """display states based on id if any"""
+    """display states"""
     states = storage.all(State).values()
     return render_template('9-states.html', states=states)
 
 
 @app.route("/states/<id>", strict_slashes=False)
-def states_id(state_id=None):
+def states_id(id=None):
     """display states based on id if any"""
-    states = storage.all(State)
-    sel_state = None
-    state_id = id
-    if state_id:
-        state_id = 'State.name.' + state_id
-        sel_state = states.get(state_id)
-        states = [sel_state.to_dict()] if sel_state else []
-    return render_template(
-            '9-states.html',
-            states=states,
-            state_id=state_id,
-            sel_state=sel_state)
+    states = storage.all(State).values()
+    for state in states:
+        if state.id == id:
+            state_id = id
+            return render_template(
+                    "9-states.html",
+                    states=state,
+                    state_id=state_id)
+        return render_template("9-states.html")
 
 
 @app.teardown_appcontext
