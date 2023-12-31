@@ -25,6 +25,7 @@ def states_id(id=None):
                     "9-states.html",
                     state=state,
                     )
+    return render_template("9-states.html")
 
 
 @app.teardown_appcontext
