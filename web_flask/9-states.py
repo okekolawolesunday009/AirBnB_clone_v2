@@ -20,14 +20,12 @@ def states_id(id=None):
     """display states based on id if any"""
     states = storage.all(State).values()
     for state in states:
-        print(state.id)
         if state.id == id:
             print(state.id)
             return render_template(
                     "9-states.html",
                     state=state,
                     )
-        return render_template("9-states.html")
 
 
 @app.teardown_appcontext
