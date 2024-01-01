@@ -29,6 +29,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     reviews = relationship('Review', cascade='all, delete-orphan', backref='place')
+    amenities_ids = []
 
     if getenv("HBNB_TYPE_STORAGE") == "db":
         amenities = relationship("Amenity", secondary="place_amenity",
@@ -40,26 +41,23 @@ class Place(BaseModel, Base):
     else:
         @property
         def reviews(self):
-            """returns the list of Review instances"""
-            var = models.FileStorage.all(Review).values()
-            lis = []
-            result = []
-            for key in var:
-                review = key.replace(".", " ")
-                review = review.split()
-                if review[0] == "review":
-                    lis.append(var[key])
-            for elem in lis:
-                if (elem.place_id == self.id):
-                    result.append(elem)
-            return result
+            """Get a list of all linked Reviews."""
+            review_list = []
+            for review in list(models.storage.all(Review).values()):
+                if review.place_id == self.id:
+                    review_list.append(review)
+            return review_list
+
         @property
         def amenities(self):
-            """that returns the list of Amenity"""
-            return self.amenity_ids
-        
+            """Get/set linked Amenities."""
+            amenity_list = []
+            for amenity in list(models.storage.all(Amenity).values()):
+                if amenity.id in self.amenity_ids:
+                    amenity_list.append(amenity)
+            return amenity_list
+
         @amenities.setter
-        def amenities(self, obj=None):
-            """Appends amenity ids to the attribute"""
-            if type(obj) == "Amenity" and obj.id not in self.amenity_ids:
-                self.amenity_ids.append(obj.id)
+        def amenities(self, value):
+            if type(value) == Amenity:
+                self.amenity_ids.append(value.id)

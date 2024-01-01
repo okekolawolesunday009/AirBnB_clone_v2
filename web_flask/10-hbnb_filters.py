@@ -12,8 +12,9 @@ app = Flask(__name__)
 @app.route("/hbnb_filters", strict_slashes=False)
 def state_filters():
     """display states based on id if any"""
-    states = storage.all(State).values()
-    amenities = storage.all("Amenity").values()
+    states = storage.all(State).items()
+    amenities = storage.all(Amenity).items()
+    print(amenities)
     return render_template('10-hbnb_filters.html', states=states, amenities=amenities)
 
 
